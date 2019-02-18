@@ -56,9 +56,10 @@
 //================================================================
 
 //================================================================
-//  Attributes managed is:
+//  Attributes managed are:
 //================================================================
-//  valve  |  Tango::DevBoolean	Scalar
+//  valve   |  Tango::DevBoolean	Scalar
+//  sensor  |  Tango::DevBoolean	Scalar
 //================================================================
 
 namespace Pneumo_ns
@@ -117,7 +118,7 @@ void Pneumo::delete_device()
 	//	Delete device allocated objects
 	
 	/*----- PROTECTED REGION END -----*/	//	Pneumo::delete_device
-	delete[] attr_valve_read;
+	delete[] attr_sensor_read;
 }
 
 //--------------------------------------------------------
@@ -139,11 +140,16 @@ void Pneumo::init_device()
 	//	Get the device properties from database
 	get_device_property();
 	
-	attr_valve_read = new Tango::DevBoolean[1];
+	attr_sensor_read = new Tango::DevBoolean[1];
 	/*----- PROTECTED REGION ID(Pneumo::init_device) ENABLED START -----*/
-	
-	if(sp==NULL) sp = new SP::SerialPort(serialPort.c_str());
+
+	sp = static_cast<PneumoClass *>(get_device_class())->sp;
+	if(sp==NULL){
+		static_cast<PneumoClass *>(get_device_class())->sp = new SP::SerialPort(serialPort.c_str());
+		sp = static_cast<PneumoClass *>(get_device_class())->sp;
+	}
 	if(pneumo==NULL) pneumo = new Pneumatics(sp,deviceAddr);
+
 
 	device_state = Tango::OFF;
 	
@@ -169,6 +175,7 @@ void Pneumo::get_device_property()
 	Tango::DbData	dev_prop;
 	dev_prop.push_back(Tango::DbDatum("SerialPort"));
 	dev_prop.push_back(Tango::DbDatum("DeviceAddr"));
+	dev_prop.push_back(Tango::DbDatum("NumOfValve"));
 
 	//	is there at least one property to be read ?
 	if (dev_prop.size()>0)
@@ -204,6 +211,17 @@ void Pneumo::get_device_property()
 		}
 		//	And try to extract DeviceAddr value from database
 		if (dev_prop[i].is_empty()==false)	dev_prop[i]  >>  deviceAddr;
+
+		//	Try to initialize NumOfValve from class property
+		cl_prop = ds_class->get_class_property(dev_prop[++i].name);
+		if (cl_prop.is_empty()==false)	cl_prop  >>  numOfValve;
+		else {
+			//	Try to initialize NumOfValve from default device value
+			def_prop = ds_class->get_default_device_property(dev_prop[i].name);
+			if (def_prop.is_empty()==false)	def_prop  >>  numOfValve;
+		}
+		//	And try to extract NumOfValve value from database
+		if (dev_prop[i].is_empty()==false)	dev_prop[i]  >>  numOfValve;
 
 	}
 
@@ -263,27 +281,6 @@ void Pneumo::write_attr_hardware(TANGO_UNUSED(vector<long> &attr_list))
 
 //--------------------------------------------------------
 /**
- *	Read attribute valve related method
- *	Description: state of valve
- *
- *	Data type:	Tango::DevBoolean
- *	Attr type:	Scalar
- */
-//--------------------------------------------------------
-void Pneumo::read_valve(Tango::Attribute &attr)
-{
-	DEBUG_STREAM << "Pneumo::read_valve(Tango::Attribute &attr) entering... " << endl;
-	/*----- PROTECTED REGION ID(Pneumo::read_valve) ENABLED START -----*/
-	//	Set the attribute value
-
-	*attr_valve_read = false;
-
-	attr.set_value(attr_valve_read);
-	
-	/*----- PROTECTED REGION END -----*/	//	Pneumo::read_valve
-}
-//--------------------------------------------------------
-/**
  *	Write attribute valve related method
  *	Description: state of valve
  *
@@ -299,10 +296,52 @@ void Pneumo::write_valve(Tango::WAttribute &attr)
 	attr.get_write_value(w_val);
 	/*----- PROTECTED REGION ID(Pneumo::write_valve) ENABLED START -----*/
 
-	std::cout << w_val;
+	/* if sensor is false */
+	if(!(*attr_sensor_read)){
+		device_state = Tango::FAULT;
+		device_status = "No pressure in system!";
+		return;
+	}
 
-	device_state = Tango::ON;
+	if(w_val){
+		(static_cast<PneumoClass *>(get_device_class()))->reg_in |= (1 << numOfValve);
+		pneumo->setRegister((static_cast<PneumoClass *>(get_device_class()))->reg_in);
+		device_status = "in air";
+		device_state = Tango::ON;
+	}else{
+		(static_cast<PneumoClass *>(get_device_class()))->reg_in &= ~(1 << numOfValve);
+		pneumo->setRegister((static_cast<PneumoClass *>(get_device_class()))->reg_in);
+		device_status = "is down";
+		device_state = Tango::OFF;
+	}
+
 	/*----- PROTECTED REGION END -----*/	//	Pneumo::write_valve
+}
+//--------------------------------------------------------
+/**
+ *	Read attribute sensor related method
+ *	Description: Sensor of pressure
+ *
+ *	Data type:	Tango::DevBoolean
+ *	Attr type:	Scalar
+ */
+//--------------------------------------------------------
+void Pneumo::read_sensor(Tango::Attribute &attr)
+{
+	DEBUG_STREAM << "Pneumo::read_sensor(Tango::Attribute &attr) entering... " << endl;
+	/*----- PROTECTED REGION ID(Pneumo::read_sensor) ENABLED START -----*/
+	//	Set the attribute value
+	attr.set_value(attr_sensor_read);
+
+	if((pneumo->getRegister() & (1 << numOfValve))){
+		*attr_sensor_read = false;
+		device_state = Tango::FAULT;
+		device_status = "No pressure in system!";
+	}else{
+		*attr_sensor_read = true;
+	}
+
+	/*----- PROTECTED REGION END -----*/	//	Pneumo::read_sensor
 }
 
 //--------------------------------------------------------

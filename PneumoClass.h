@@ -41,6 +41,8 @@
 #include <tango.h>
 #include <Pneumo.h>
 
+#include "SerialPort.h"
+
 
 /*----- PROTECTED REGION END -----*/	//	PneumoClass.h
 
@@ -60,14 +62,25 @@ class valveAttrib: public Tango::Attr
 {
 public:
 	valveAttrib():Attr("valve",
-			Tango::DEV_BOOLEAN, Tango::READ_WRITE) {};
+			Tango::DEV_BOOLEAN, Tango::WRITE) {};
 	~valveAttrib() {};
-	virtual void read(Tango::DeviceImpl *dev,Tango::Attribute &att)
-		{(static_cast<Pneumo *>(dev))->read_valve(att);}
 	virtual void write(Tango::DeviceImpl *dev,Tango::WAttribute &att)
 		{(static_cast<Pneumo *>(dev))->write_valve(att);}
 	virtual bool is_allowed(Tango::DeviceImpl *dev,Tango::AttReqType ty)
 		{return (static_cast<Pneumo *>(dev))->is_valve_allowed(ty);}
+};
+
+//	Attribute sensor class definition
+class sensorAttrib: public Tango::Attr
+{
+public:
+	sensorAttrib():Attr("sensor",
+			Tango::DEV_BOOLEAN, Tango::READ) {};
+	~sensorAttrib() {};
+	virtual void read(Tango::DeviceImpl *dev,Tango::Attribute &att)
+		{(static_cast<Pneumo *>(dev))->read_sensor(att);}
+	virtual bool is_allowed(Tango::DeviceImpl *dev,Tango::AttReqType ty)
+		{return (static_cast<Pneumo *>(dev))->is_sensor_allowed(ty);}
 };
 
 
@@ -82,7 +95,11 @@ class PneumoClass : public Tango::DeviceClass
 #endif
 {
 	/*----- PROTECTED REGION ID(PneumoClass::Additionnal DServer data members) ENABLED START -----*/
-	
+	public:
+		uint16_t reg_in = 0x0000;
+		uint16_t reg_out = 0x0000;
+
+		SP::SerialPort *sp;
 	
 	/*----- PROTECTED REGION END -----*/	//	PneumoClass::Additionnal DServer data members
 

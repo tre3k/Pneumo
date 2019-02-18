@@ -11,48 +11,12 @@ CTRL_RA_153_16::ControllerRA153_16(sp, addr) {
     }
     setFreq(1000);
     disableFreq();
-
     setRegister(0x0000);
-    std::cout << "register: " << std::hex << (getRegister()&0xffff) << "\n";
-
-    enableFreq();
-
-
+    std::cout << std::hex << "0x" << getRegister() << "\n";
 }
 
 Pneumatics::~Pneumatics() {
 
-}
-
-void Pneumatics::setValve(int number, bool stat) {
-    uint16_t reg = 0;
-    reg = getRegister();
-    if(stat) reg|= (1 << number);
-    else     reg&=~(1 << number);
-    setRegister(reg);
-
-    if(stat){
-        // on valve
-        enableFreq();
-        states[number] = true;
-    }else{
-        // off valve
-        disableFreq();
-        states[number] = false;
-    }
-}
-
-bool Pneumatics::getState(int number) {
-    /* command for get state from device */
-    uint16_t reg = getRegister();
-    bool state;
-    for(int i=0;i<VALVE_COUNT;i++){
-        state = false;
-        if(reg & (1<<i)) state = true;
-        if(states[i] != state) states[i] = state;
-    }
-
-    return states[number];
 }
 
 void Pneumatics::setRegister(uint16_t reg) {
@@ -61,6 +25,7 @@ void Pneumatics::setRegister(uint16_t reg) {
     command_packet.data[1] = (char)((reg & 0xff00) >> 8);
     command_packet.data[2] = '0'; command_packet.data[3] = '1';
     SendCommand(&command_packet);
+    enableFreq();
 }
 
 uint16_t Pneumatics::getRegister() {

@@ -26,11 +26,13 @@ public:
     /* get power state (power ON or power OFF) */
     bool getState(int number);
 
-private:
     /* write data to pneumo registers [D0..D16] two bytes, 1 bit - state 1 valve */
     void setRegister(uint16_t reg);
     /* read data from registers */
     uint16_t getRegister(void);
+
+private:
+
 };
 
 

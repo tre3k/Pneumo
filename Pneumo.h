@@ -64,6 +64,7 @@ public:
     SP::SerialPort *sp;
     Pneumatics *pneumo;
 
+
 /*----- PROTECTED REGION END -----*/	//	Pneumo::Data Members
 
 //	Device property data members
@@ -72,10 +73,12 @@ public:
 	string	serialPort;
 	//	DeviceAddr:	Address of device, for example ``085`` <- string!
 	string	deviceAddr;
+	//	NumOfValve:	Just number of valve [0..16]
+	Tango::DevShort	numOfValve;
 
 //	Attribute data members
 public:
-	Tango::DevBoolean	*attr_valve_read;
+	Tango::DevBoolean	*attr_sensor_read;
 
 //	Constructors and destructors
 public:
@@ -151,9 +154,17 @@ public:
  *	Data type:	Tango::DevBoolean
  *	Attr type:	Scalar
  */
-	virtual void read_valve(Tango::Attribute &attr);
 	virtual void write_valve(Tango::WAttribute &attr);
 	virtual bool is_valve_allowed(Tango::AttReqType type);
+/**
+ *	Attribute sensor related methods
+ *	Description: Sensor of pressure
+ *
+ *	Data type:	Tango::DevBoolean
+ *	Attr type:	Scalar
+ */
+	virtual void read_sensor(Tango::Attribute &attr);
+	virtual bool is_sensor_allowed(Tango::AttReqType type);
 
 
 	//--------------------------------------------------------

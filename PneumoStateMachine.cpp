@@ -58,10 +58,22 @@ bool Pneumo::is_valve_allowed(TANGO_UNUSED(Tango::AttReqType type))
 	
 	/*----- PROTECTED REGION END -----*/	//	Pneumo::valveStateAllowed_WRITE
 
-	//	Not any excluded states for valve attribute in read access.
-	/*----- PROTECTED REGION ID(Pneumo::valveStateAllowed_READ) ENABLED START -----*/
+	return true;
+}
+
+//--------------------------------------------------------
+/**
+ *	Method      : Pneumo::is_sensor_allowed()
+ *	Description : Execution allowed for sensor attribute
+ */
+//--------------------------------------------------------
+bool Pneumo::is_sensor_allowed(TANGO_UNUSED(Tango::AttReqType type))
+{
+
+	//	Not any excluded states for sensor attribute in read access.
+	/*----- PROTECTED REGION ID(Pneumo::sensorStateAllowed_READ) ENABLED START -----*/
 	
-	/*----- PROTECTED REGION END -----*/	//	Pneumo::valveStateAllowed_READ
+	/*----- PROTECTED REGION END -----*/	//	Pneumo::sensorStateAllowed_READ
 	return true;
 }
 

@@ -246,6 +246,20 @@ void PneumoClass::set_default_property()
 	}
 	else
 		add_wiz_dev_prop(prop_name, prop_desc);
+	prop_name = "NumOfValve";
+	prop_desc = "Just number of valve [0..16]";
+	prop_def  = "0";
+	vect_data.clear();
+	vect_data.push_back("0");
+	if (prop_def.length()>0)
+	{
+		Tango::DbDatum	data(prop_name);
+		data << vect_data ;
+		dev_def_prop.push_back(data);
+		add_wiz_dev_prop(prop_name, prop_desc,  prop_def);
+	}
+	else
+		add_wiz_dev_prop(prop_name, prop_desc);
 }
 
 //--------------------------------------------------------
@@ -371,10 +385,34 @@ void PneumoClass::attribute_factory(vector<Tango::Attr *> &att_list)
 	//	delta_val	not set for valve
 	
 	valve->set_default_properties(valve_prop);
-	valve->set_polling_period(1000);
+	//	Not Polled
 	valve->set_disp_level(Tango::OPERATOR);
 	//	Not Memorized
 	att_list.push_back(valve);
+
+	//	Attribute : sensor
+	sensorAttrib	*sensor = new sensorAttrib();
+	Tango::UserDefaultAttrProp	sensor_prop;
+	sensor_prop.set_description("Sensor of pressure");
+	//	label	not set for sensor
+	//	unit	not set for sensor
+	//	standard_unit	not set for sensor
+	//	display_unit	not set for sensor
+	//	format	not set for sensor
+	//	max_value	not set for sensor
+	//	min_value	not set for sensor
+	//	max_alarm	not set for sensor
+	//	min_alarm	not set for sensor
+	//	max_warning	not set for sensor
+	//	min_warning	not set for sensor
+	//	delta_t	not set for sensor
+	//	delta_val	not set for sensor
+	
+	sensor->set_default_properties(sensor_prop);
+	sensor->set_polling_period(3000);
+	sensor->set_disp_level(Tango::OPERATOR);
+	//	Not Memorized
+	att_list.push_back(sensor);
 
 
 	//	Create a list of static attributes
