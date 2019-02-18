@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ASCII"?>
 <pogoDsl:PogoSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pogoDsl="http://www.esrf.fr/tango/pogo/PogoDsl">
   <classes name="Pneumo" pogoRevision="9.4">
-    <description description="" title="" sourcePath="/data/coding/c/TEX/Pneumo" language="Cpp" filestogenerate="XMI   file,Code files,Protected Regions" license="GPL" copyright="Pshenichnyi Kirill PNPI (c) 2019" hasMandatoryProperty="false" hasConcreteProperty="true" hasAbstractCommand="false" hasAbstractAttribute="false">
+    <description description="" title="" sourcePath="/home/alex/TEX/servers/Pneumo" language="Cpp" filestogenerate="XMI   file,Code files,Protected Regions" license="GPL" copyright="Pshenichnyi Kirill PNPI (c) 2019" hasMandatoryProperty="false" hasConcreteProperty="true" hasAbstractCommand="false" hasAbstractAttribute="false">
       <inheritances classname="Device_Impl" sourcePath=""/>
       <identification contact="at mail.ru - pshcyrill" author="pshcyrill" emailDomain="mail.ru" classFamily="Vacuum" siteSpecific="" platform="Unix Like" bus="Serial Line" manufacturer="PNPI" reference="Armen pneumatics device"/>
     </description>
@@ -33,7 +33,7 @@
       </argout>
       <status abstract="true" inherited="true" concrete="true"/>
     </commands>
-    <attributes name="valve" attType="Scalar" rwType="READ" displayLevel="OPERATOR" polledPeriod="1000" maxX="" maxY="" allocReadMember="true" isDynamic="false">
+    <attributes name="valve" attType="Scalar" rwType="READ_WRITE" displayLevel="OPERATOR" polledPeriod="1000" maxX="" maxY="" allocReadMember="true" isDynamic="false">
       <dataType xsi:type="pogoDsl:BooleanType"/>
       <changeEvent fire="false" libCheckCriteria="false"/>
       <archiveEvent fire="false" libCheckCriteria="false"/>

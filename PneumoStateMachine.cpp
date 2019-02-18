@@ -53,6 +53,10 @@ namespace Pneumo_ns
 //--------------------------------------------------------
 bool Pneumo::is_valve_allowed(TANGO_UNUSED(Tango::AttReqType type))
 {
+	//	Not any excluded states for valve attribute in Write access.
+	/*----- PROTECTED REGION ID(Pneumo::valveStateAllowed_WRITE) ENABLED START -----*/
+	
+	/*----- PROTECTED REGION END -----*/	//	Pneumo::valveStateAllowed_WRITE
 
 	//	Not any excluded states for valve attribute in read access.
 	/*----- PROTECTED REGION ID(Pneumo::valveStateAllowed_READ) ENABLED START -----*/

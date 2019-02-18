@@ -60,7 +60,9 @@ class Pneumo : public TANGO_BASE_CLASS
 
 /*----- PROTECTED REGION ID(Pneumo::Data Members) ENABLED START -----*/
 
-//	Add your own data members
+public:
+    SP::SerialPort *sp;
+    Pneumatics *pneumo;
 
 /*----- PROTECTED REGION END -----*/	//	Pneumo::Data Members
 
@@ -134,6 +136,13 @@ public:
 	 */
 	//--------------------------------------------------------
 	virtual void read_attr_hardware(vector<long> &attr_list);
+	//--------------------------------------------------------
+	/*
+	 *	Method      : Pneumo::write_attr_hardware()
+	 *	Description : Hardware writing for attributes.
+	 */
+	//--------------------------------------------------------
+	virtual void write_attr_hardware(vector<long> &attr_list);
 
 /**
  *	Attribute valve related methods
@@ -143,6 +152,7 @@ public:
  *	Attr type:	Scalar
  */
 	virtual void read_valve(Tango::Attribute &attr);
+	virtual void write_valve(Tango::WAttribute &attr);
 	virtual bool is_valve_allowed(Tango::AttReqType type);
 
 

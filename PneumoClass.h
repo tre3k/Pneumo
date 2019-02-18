@@ -60,10 +60,12 @@ class valveAttrib: public Tango::Attr
 {
 public:
 	valveAttrib():Attr("valve",
-			Tango::DEV_BOOLEAN, Tango::READ) {};
+			Tango::DEV_BOOLEAN, Tango::READ_WRITE) {};
 	~valveAttrib() {};
 	virtual void read(Tango::DeviceImpl *dev,Tango::Attribute &att)
 		{(static_cast<Pneumo *>(dev))->read_valve(att);}
+	virtual void write(Tango::DeviceImpl *dev,Tango::WAttribute &att)
+		{(static_cast<Pneumo *>(dev))->write_valve(att);}
 	virtual bool is_allowed(Tango::DeviceImpl *dev,Tango::AttReqType ty)
 		{return (static_cast<Pneumo *>(dev))->is_valve_allowed(ty);}
 };

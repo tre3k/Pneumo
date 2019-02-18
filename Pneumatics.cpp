@@ -12,12 +12,11 @@ CTRL_RA_153_16::ControllerRA153_16(sp, addr) {
     setFreq(1000);
     disableFreq();
 
-    uint16_t test = 0x8011;
-
-    setRegister(test);
+    setRegister(0x0000);
     std::cout << "register: " << std::hex << (getRegister()&0xffff) << "\n";
 
     enableFreq();
+
 
 }
 

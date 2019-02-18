@@ -142,7 +142,10 @@ void Pneumo::init_device()
 	attr_valve_read = new Tango::DevBoolean[1];
 	/*----- PROTECTED REGION ID(Pneumo::init_device) ENABLED START -----*/
 	
-	//	Initialize device
+	if(sp==NULL) sp = new SP::SerialPort(serialPort.c_str());
+	if(pneumo==NULL) pneumo = new Pneumatics(sp,deviceAddr);
+
+	device_state = Tango::OFF;
 	
 	/*----- PROTECTED REGION END -----*/	//	Pneumo::init_device
 }
@@ -242,6 +245,21 @@ void Pneumo::read_attr_hardware(TANGO_UNUSED(vector<long> &attr_list))
 	
 	/*----- PROTECTED REGION END -----*/	//	Pneumo::read_attr_hardware
 }
+//--------------------------------------------------------
+/**
+ *	Method      : Pneumo::write_attr_hardware()
+ *	Description : Hardware writing for attributes
+ */
+//--------------------------------------------------------
+void Pneumo::write_attr_hardware(TANGO_UNUSED(vector<long> &attr_list))
+{
+	DEBUG_STREAM << "Pneumo::write_attr_hardware(vector<long> &attr_list) entering... " << endl;
+	/*----- PROTECTED REGION ID(Pneumo::write_attr_hardware) ENABLED START -----*/
+	
+	//	Add your own code
+	
+	/*----- PROTECTED REGION END -----*/	//	Pneumo::write_attr_hardware
+}
 
 //--------------------------------------------------------
 /**
@@ -257,9 +275,34 @@ void Pneumo::read_valve(Tango::Attribute &attr)
 	DEBUG_STREAM << "Pneumo::read_valve(Tango::Attribute &attr) entering... " << endl;
 	/*----- PROTECTED REGION ID(Pneumo::read_valve) ENABLED START -----*/
 	//	Set the attribute value
+
+	*attr_valve_read = false;
+
 	attr.set_value(attr_valve_read);
 	
 	/*----- PROTECTED REGION END -----*/	//	Pneumo::read_valve
+}
+//--------------------------------------------------------
+/**
+ *	Write attribute valve related method
+ *	Description: state of valve
+ *
+ *	Data type:	Tango::DevBoolean
+ *	Attr type:	Scalar
+ */
+//--------------------------------------------------------
+void Pneumo::write_valve(Tango::WAttribute &attr)
+{
+	DEBUG_STREAM << "Pneumo::write_valve(Tango::WAttribute &attr) entering... " << endl;
+	//	Retrieve write value
+	Tango::DevBoolean	w_val;
+	attr.get_write_value(w_val);
+	/*----- PROTECTED REGION ID(Pneumo::write_valve) ENABLED START -----*/
+
+	std::cout << w_val;
+
+	device_state = Tango::ON;
+	/*----- PROTECTED REGION END -----*/	//	Pneumo::write_valve
 }
 
 //--------------------------------------------------------
