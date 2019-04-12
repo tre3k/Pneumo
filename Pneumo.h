@@ -61,7 +61,7 @@ class Pneumo : public TANGO_BASE_CLASS
 /*----- PROTECTED REGION ID(Pneumo::Data Members) ENABLED START -----*/
 
 public:
-    SP::SerialPort *sp;
+    SP::SerialPort *sp = NULL;
     Pneumatics *pneumo;
 
 

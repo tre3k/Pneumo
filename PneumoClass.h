@@ -99,7 +99,7 @@ class PneumoClass : public Tango::DeviceClass
 		uint16_t reg_in = 0x0000;
 		uint16_t reg_out = 0x0000;
 
-		SP::SerialPort *sp;
+		SP::SerialPort *sp = NULL;
 	
 	/*----- PROTECTED REGION END -----*/	//	PneumoClass::Additionnal DServer data members
 
