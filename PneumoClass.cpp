@@ -409,7 +409,7 @@ void PneumoClass::attribute_factory(vector<Tango::Attr *> &att_list)
 	//	delta_val	not set for sensor
 	
 	sensor->set_default_properties(sensor_prop);
-	sensor->set_polling_period(3000);
+	//	Not Polled
 	sensor->set_disp_level(Tango::OPERATOR);
 	//	Not Memorized
 	att_list.push_back(sensor);

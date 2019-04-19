@@ -300,7 +300,7 @@ void Pneumo::write_valve(Tango::WAttribute &attr)
 	if(!(*attr_sensor_read)){
 		device_state = Tango::FAULT;
 		device_status = "No pressure in system!";
-		return;
+		//return;
 	}
 
 	if(w_val){
