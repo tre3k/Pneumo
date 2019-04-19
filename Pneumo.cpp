@@ -338,6 +338,7 @@ void Pneumo::read_sensor(Tango::Attribute &attr)
 		device_state = Tango::FAULT;
 		device_status = "No pressure in system!";
 	}else{
+        device_status = "Pressure in system.";
 		*attr_sensor_read = true;
 	}
 

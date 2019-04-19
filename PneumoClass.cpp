@@ -402,7 +402,7 @@ void PneumoClass::attribute_factory(vector<Tango::Attr *> &att_list)
 	//	max_value	not set for sensor
 	//	min_value	not set for sensor
 	//	max_alarm	not set for sensor
-	//	min_alarm	not set for sensor
+	sensor_prop.set_min_alarm("false");
 	//	max_warning	not set for sensor
 	//	min_warning	not set for sensor
 	//	delta_t	not set for sensor
