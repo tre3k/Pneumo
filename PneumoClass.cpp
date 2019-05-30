@@ -414,6 +414,30 @@ void PneumoClass::attribute_factory(vector<Tango::Attr *> &att_list)
 	//	Not Memorized
 	att_list.push_back(sensor);
 
+	//	Attribute : allsensor
+	allsensorAttrib	*allsensor = new allsensorAttrib();
+	Tango::UserDefaultAttrProp	allsensor_prop;
+	//	description	not set for allsensor
+	//	label	not set for allsensor
+	//	unit	not set for allsensor
+	//	standard_unit	not set for allsensor
+	//	display_unit	not set for allsensor
+	//	format	not set for allsensor
+	//	max_value	not set for allsensor
+	//	min_value	not set for allsensor
+	//	max_alarm	not set for allsensor
+	//	min_alarm	not set for allsensor
+	//	max_warning	not set for allsensor
+	//	min_warning	not set for allsensor
+	//	delta_t	not set for allsensor
+	//	delta_val	not set for allsensor
+	
+	allsensor->set_default_properties(allsensor_prop);
+	//	Not Polled
+	allsensor->set_disp_level(Tango::OPERATOR);
+	//	Not Memorized
+	att_list.push_back(allsensor);
+
 
 	//	Create a list of static attributes
 	create_static_attribute_list(get_class_attr()->get_attr_list());

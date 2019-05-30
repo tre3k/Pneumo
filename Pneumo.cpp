@@ -58,8 +58,9 @@
 //================================================================
 //  Attributes managed are:
 //================================================================
-//  valve   |  Tango::DevBoolean	Scalar
-//  sensor  |  Tango::DevBoolean	Scalar
+//  valve      |  Tango::DevBoolean	Scalar
+//  sensor     |  Tango::DevBoolean	Scalar
+//  allsensor  |  Tango::DevUShort	Scalar
 //================================================================
 
 namespace Pneumo_ns
@@ -119,6 +120,7 @@ void Pneumo::delete_device()
 	
 	/*----- PROTECTED REGION END -----*/	//	Pneumo::delete_device
 	delete[] attr_sensor_read;
+	delete[] attr_allsensor_read;
 }
 
 //--------------------------------------------------------
@@ -141,6 +143,7 @@ void Pneumo::init_device()
 	get_device_property();
 	
 	attr_sensor_read = new Tango::DevBoolean[1];
+	attr_allsensor_read = new Tango::DevUShort[1];
 	/*----- PROTECTED REGION ID(Pneumo::init_device) ENABLED START -----*/
 
 	sp = static_cast<PneumoClass *>(get_device_class())->sp;
@@ -350,6 +353,27 @@ void Pneumo::read_sensor(Tango::Attribute &attr)
 	}
 
 	/*----- PROTECTED REGION END -----*/	//	Pneumo::read_sensor
+}
+//--------------------------------------------------------
+/**
+ *	Read attribute allsensor related method
+ *	Description: 
+ *
+ *	Data type:	Tango::DevUShort
+ *	Attr type:	Scalar
+ */
+//--------------------------------------------------------
+void Pneumo::read_allsensor(Tango::Attribute &attr)
+{
+	DEBUG_STREAM << "Pneumo::read_allsensor(Tango::Attribute &attr) entering... " << endl;
+	/*----- PROTECTED REGION ID(Pneumo::read_allsensor) ENABLED START -----*/
+
+	*attr_allsensor_read = pneumo->getRegister();
+
+	//	Set the attribute value
+	attr.set_value(attr_allsensor_read);
+	
+	/*----- PROTECTED REGION END -----*/	//	Pneumo::read_allsensor
 }
 
 //--------------------------------------------------------

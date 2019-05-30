@@ -83,6 +83,19 @@ public:
 		{return (static_cast<Pneumo *>(dev))->is_sensor_allowed(ty);}
 };
 
+//	Attribute allsensor class definition
+class allsensorAttrib: public Tango::Attr
+{
+public:
+	allsensorAttrib():Attr("allsensor",
+			Tango::DEV_USHORT, Tango::READ) {};
+	~allsensorAttrib() {};
+	virtual void read(Tango::DeviceImpl *dev,Tango::Attribute &att)
+		{(static_cast<Pneumo *>(dev))->read_allsensor(att);}
+	virtual bool is_allowed(Tango::DeviceImpl *dev,Tango::AttReqType ty)
+		{return (static_cast<Pneumo *>(dev))->is_allsensor_allowed(ty);}
+};
+
 
 /**
  *	The PneumoClass singleton definition

@@ -77,6 +77,22 @@ bool Pneumo::is_sensor_allowed(TANGO_UNUSED(Tango::AttReqType type))
 	return true;
 }
 
+//--------------------------------------------------------
+/**
+ *	Method      : Pneumo::is_allsensor_allowed()
+ *	Description : Execution allowed for allsensor attribute
+ */
+//--------------------------------------------------------
+bool Pneumo::is_allsensor_allowed(TANGO_UNUSED(Tango::AttReqType type))
+{
+
+	//	Not any excluded states for allsensor attribute in read access.
+	/*----- PROTECTED REGION ID(Pneumo::allsensorStateAllowed_READ) ENABLED START -----*/
+	
+	/*----- PROTECTED REGION END -----*/	//	Pneumo::allsensorStateAllowed_READ
+	return true;
+}
+
 
 //=================================================
 //		Commands Allowed Methods

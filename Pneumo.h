@@ -79,6 +79,7 @@ public:
 //	Attribute data members
 public:
 	Tango::DevBoolean	*attr_sensor_read;
+	Tango::DevUShort	*attr_allsensor_read;
 
 //	Constructors and destructors
 public:
@@ -165,6 +166,15 @@ public:
  */
 	virtual void read_sensor(Tango::Attribute &attr);
 	virtual bool is_sensor_allowed(Tango::AttReqType type);
+/**
+ *	Attribute allsensor related methods
+ *	Description: 
+ *
+ *	Data type:	Tango::DevUShort
+ *	Attr type:	Scalar
+ */
+	virtual void read_allsensor(Tango::Attribute &attr);
+	virtual bool is_allsensor_allowed(Tango::AttReqType type);
 
 
 	//--------------------------------------------------------
