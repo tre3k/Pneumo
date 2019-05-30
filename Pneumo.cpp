@@ -342,6 +342,13 @@ void Pneumo::read_sensor(Tango::Attribute &attr)
 		*attr_sensor_read = true;
 	}
 
+    //std::cout << std::hex << pneumo->getRegister() << "\n";
+	if((pneumo->getRegister() & (1 << numOfValve))){
+	    std::cout << numOfValve << " sensor not active (OFF)\n";
+	}else{
+        std::cout << numOfValve << " sensor is active (ON)\n";
+	}
+
 	/*----- PROTECTED REGION END -----*/	//	Pneumo::read_sensor
 }
 
