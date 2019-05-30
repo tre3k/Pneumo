@@ -12,7 +12,8 @@ CTRL_RA_153_16::ControllerRA153_16(sp, addr) {
     setFreq(1000);
     disableFreq();
     setRegister(0x0000);
-    std::cout << std::hex << "0x" << getRegister() << "\n";
+    // FOR DEBUG
+    //std::cout << std::hex << "0x" << getRegister() << "\n";
 }
 
 Pneumatics::~Pneumatics() {

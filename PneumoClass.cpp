@@ -393,7 +393,7 @@ void PneumoClass::attribute_factory(vector<Tango::Attr *> &att_list)
 	//	Attribute : sensor
 	sensorAttrib	*sensor = new sensorAttrib();
 	Tango::UserDefaultAttrProp	sensor_prop;
-	sensor_prop.set_description("Sensor of pressure");
+	//	description	not set for sensor
 	//	label	not set for sensor
 	//	unit	not set for sensor
 	//	standard_unit	not set for sensor
@@ -402,7 +402,7 @@ void PneumoClass::attribute_factory(vector<Tango::Attr *> &att_list)
 	//	max_value	not set for sensor
 	//	min_value	not set for sensor
 	//	max_alarm	not set for sensor
-	sensor_prop.set_min_alarm("false");
+	//	min_alarm	not set for sensor
 	//	max_warning	not set for sensor
 	//	min_warning	not set for sensor
 	//	delta_t	not set for sensor

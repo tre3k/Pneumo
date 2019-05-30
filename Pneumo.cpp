@@ -297,6 +297,7 @@ void Pneumo::write_valve(Tango::WAttribute &attr)
 	/*----- PROTECTED REGION ID(Pneumo::write_valve) ENABLED START -----*/
 
 	/* if sensor is false */
+
 	if(!(*attr_sensor_read)){
 		device_state = Tango::FAULT;
 		device_status = "No pressure in system!";
@@ -320,7 +321,7 @@ void Pneumo::write_valve(Tango::WAttribute &attr)
 //--------------------------------------------------------
 /**
  *	Read attribute sensor related method
- *	Description: Sensor of pressure
+ *	Description: 
  *
  *	Data type:	Tango::DevBoolean
  *	Attr type:	Scalar
@@ -330,18 +331,27 @@ void Pneumo::read_sensor(Tango::Attribute &attr)
 {
 	DEBUG_STREAM << "Pneumo::read_sensor(Tango::Attribute &attr) entering... " << endl;
 	/*----- PROTECTED REGION ID(Pneumo::read_sensor) ENABLED START -----*/
-	//	Set the attribute value
-	attr.set_value(attr_sensor_read);
 
 	if((pneumo->getRegister() & (1 << numOfValve))){
-		*attr_sensor_read = false;
-		device_state = Tango::FAULT;
-		device_status = "No pressure in system!";
-	}else{
-        device_status = "Pressure in system.";
-		*attr_sensor_read = true;
-	}
+ 		*attr_sensor_read = false;
+ 		device_state = Tango::FAULT;
+ 		device_status = "No pressure in system!";
+ 	}else{
+         device_status = "Pressure in system.";
+ 		*attr_sensor_read = true;
+ 	}
 
+
+	// FOR DEBUG
+    if(*attr_sensor_read){
+        std::cout << numOfValve << " sensor is active (ON)\n";
+    }else{
+        std::cout << numOfValve << " sensor not active (OFF)\n";
+    }
+
+
+    //	Set the attribute value
+    attr.set_value(attr_sensor_read);
 	/*----- PROTECTED REGION END -----*/	//	Pneumo::read_sensor
 }
 
@@ -379,7 +389,6 @@ void Pneumo::add_dynamic_commands()
 
 /*----- PROTECTED REGION ID(Pneumo::namespace_ending) ENABLED START -----*/
 
-//	Additional Methods
 
 /*----- PROTECTED REGION END -----*/	//	Pneumo::namespace_ending
 } //	namespace

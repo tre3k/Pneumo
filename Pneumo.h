@@ -158,7 +158,7 @@ public:
 	virtual bool is_valve_allowed(Tango::AttReqType type);
 /**
  *	Attribute sensor related methods
- *	Description: Sensor of pressure
+ *	Description: 
  *
  *	Data type:	Tango::DevBoolean
  *	Attr type:	Scalar
