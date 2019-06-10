@@ -36,8 +36,6 @@ namespace SP {
         /* method for close port */
         void Close(void);
 
-
-
     };
 }
 
