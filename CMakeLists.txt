@@ -22,13 +22,12 @@ set(CMAKE_CXX_STANDARD 11)
 #set(CMAKE_CXX_FLAGS -w)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
 
-
 add_executable(Pneumo
         main.cpp
         ClassFactory.cpp
-        PneumoStateMachine.cpp
         Pneumo.cpp Pneumo.h
         PneumoClass.cpp PneumoClass.h
+        PneumoStateMachine.cpp
         SerialPort.cpp SerialPort.h
         Pneumatics.cpp Pneumatics.h
         ControllerRA153_16.cpp ControllerRA153_16.h)

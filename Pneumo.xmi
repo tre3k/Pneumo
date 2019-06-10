@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="ASCII"?>
 <pogoDsl:PogoSystem xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pogoDsl="http://www.esrf.fr/tango/pogo/PogoDsl">
   <classes name="Pneumo" pogoRevision="9.4">
-    <description description="" title="" sourcePath="/home/a/TEX/servers/Pneumo" language="Cpp" filestogenerate="XMI   file,Code files,Protected Regions" license="GPL" copyright="Pshenichnyi Kirill PNPI (c) 2019" hasMandatoryProperty="false" hasConcreteProperty="true" hasAbstractCommand="false" hasAbstractAttribute="false">
+    <description description="" title="" sourcePath="/home/a/TEX/servers/Pneumo" language="Cpp" filestogenerate="XMI   file,Code files,Protected Regions" license="GPL" copyright="" hasMandatoryProperty="false" hasConcreteProperty="true" hasAbstractCommand="false" hasAbstractAttribute="false">
       <inheritances classname="Device_Impl" sourcePath=""/>
-      <identification contact="at mail.ru - pshcyrill" author="pshcyrill" emailDomain="mail.ru" classFamily="Vacuum" siteSpecific="" platform="Unix Like" bus="Serial Line" manufacturer="PNPI" reference="Armen pneumatics device"/>
+      <identification contact="at mail.ru - pshcyrill" author="pshcyrill" emailDomain="mail.ru" classFamily="Vacuum" siteSpecific="" platform="All Platforms" bus="Serial Line" manufacturer="PNPI" reference="Pneumo"/>
     </description>
-    <deviceProperties name="SerialPort" description="Just serial port, such as ``/dev/ttyS0`` for example">
+    <deviceProperties name="SerialPort" description="maybe /dev/ttyS0">
       <type xsi:type="pogoDsl:StringType"/>
       <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
       <DefaultPropValue>/dev/ttyS0</DefaultPropValue>
     </deviceProperties>
-    <deviceProperties name="DeviceAddr" description="Address of device, for example ``085`` &lt;- string!">
+    <deviceProperties name="DeviceAddr" description="`085` String">
       <type xsi:type="pogoDsl:StringType"/>
       <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
-      <DefaultPropValue>000</DefaultPropValue>
+      <DefaultPropValue>085</DefaultPropValue>
     </deviceProperties>
-    <deviceProperties name="NumOfValve" description="Just number of valve [0..16]">
-      <type xsi:type="pogoDsl:ShortType"/>
+    <deviceProperties name="NumOfValve" description="[0..16]">
+      <type xsi:type="pogoDsl:UShortType"/>
       <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
       <DefaultPropValue>0</DefaultPropValue>
     </deviceProperties>
@@ -44,17 +44,9 @@
       <archiveEvent fire="false" libCheckCriteria="false"/>
       <dataReadyEvent fire="false" libCheckCriteria="true"/>
       <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
-      <properties description="state of valve" label="" unit="" standardUnit="" displayUnit="" format="" maxValue="" minValue="" maxAlarm="" minAlarm="" maxWarning="" minWarning="" deltaTime="" deltaValue=""/>
+      <properties description="" label="Valve" unit="" standardUnit="" displayUnit="" format="" maxValue="" minValue="" maxAlarm="" minAlarm="" maxWarning="" minWarning="" deltaTime="" deltaValue=""/>
     </attributes>
     <attributes name="sensor" attType="Scalar" rwType="READ" displayLevel="OPERATOR" polledPeriod="0" maxX="" maxY="" allocReadMember="true" isDynamic="false">
-      <dataType xsi:type="pogoDsl:BooleanType"/>
-      <changeEvent fire="false" libCheckCriteria="false"/>
-      <archiveEvent fire="false" libCheckCriteria="false"/>
-      <dataReadyEvent fire="false" libCheckCriteria="true"/>
-      <status abstract="false" inherited="false" concrete="true" concreteHere="true"/>
-      <properties description="Sensor of pressure" label="" unit="" standardUnit="" displayUnit="" format="" maxValue="" minValue="" maxAlarm="" minAlarm="" maxWarning="" minWarning="" deltaTime="" deltaValue=""/>
-    </attributes>
-    <attributes name="allsensor" attType="Scalar" rwType="READ" displayLevel="OPERATOR" polledPeriod="0" maxX="" maxY="" allocReadMember="true" isDynamic="false">
       <dataType xsi:type="pogoDsl:UShortType"/>
       <changeEvent fire="false" libCheckCriteria="false"/>
       <archiveEvent fire="false" libCheckCriteria="false"/>
