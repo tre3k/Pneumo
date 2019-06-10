@@ -28,8 +28,6 @@ namespace SP {
 
         /* method for readwrite to controller */
         void readwrite(char *req, char *res, size_t *size_req, size_t *size_res);
-        /* for async read/write */
-        static void handler(const boost::system::error_code &error, std::size_t bytes_transferred);
 
         /* methods for set and get private baud_rate */
         void setBaudRate(int br);
