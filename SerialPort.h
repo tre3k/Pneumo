@@ -19,6 +19,8 @@ namespace SP {
 
         unsigned int baud_rate = 9600;           // default speed value
 
+        static bool busy;                       // just wait for send/recv data
+
     public:
         /* Just contructor, path = /dev/tty* */
         explicit SerialPort(const char *path);

@@ -4,14 +4,17 @@
 
 #include "Pneumatics.h"
 
+uint16_t Pneumatics::regState = 0x0000;
+
 Pneumatics::Pneumatics(SP::SerialPort *sp, std::string addr) :
 CTRL_RA_153_16::ControllerRA153_16(sp, addr) {
     for(int i=0;i<VALVE_COUNT;i++){
-        states[i] = false;
+       // states[i] = false;
     }
     setFreq(1000);
     disableFreq();
-    setRegister(0x0000);
+    //setRegister(0x0000);
+    setRegister(regState);
     std::cout << std::hex << "0x" << getRegister() << "\n";
 }
 
@@ -39,4 +42,17 @@ uint16_t Pneumatics::getRegister() {
     retvalue = (uint16_t)(buffer[0] & 0xff);
     retvalue|= (uint16_t)((buffer[1] & 0xff) << 8);
     return retvalue;
+}
+
+bool Pneumatics::getState(int number) {
+    return ((regState >> number)&0xfffe) ? true : false;
+}
+
+void Pneumatics::setValve(int number, bool stat) {
+    if(stat){
+        regState |= (1<<number);
+    }else{
+        regState  &= ~(1<<number);
+    }
+    setRegister(regState);
 }

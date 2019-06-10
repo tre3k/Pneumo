@@ -65,7 +65,7 @@ namespace Pneumo_ns
 {
 /*----- PROTECTED REGION ID(Pneumo::namespace_starting) ENABLED START -----*/
 
-//	static initializations
+SP::SerialPort *Pneumo::sp = NULL;
 
 /*----- PROTECTED REGION END -----*/	//	Pneumo::namespace_starting
 
@@ -141,8 +141,26 @@ void Pneumo::init_device()
 	
 	attr_sensor_read = new Tango::DevUShort[1];
 	/*----- PROTECTED REGION ID(Pneumo::init_device) ENABLED START -----*/
-	
-	//	Initialize device
+
+
+    if(sp==NULL){
+        sp = new SP::SerialPort(serialPort.c_str());
+        if(sp==NULL){
+            std::cout << "Error!\n";
+            return;
+        }
+        std::cout << "Init serial Port\n";
+    }
+
+    if(pneumatics==NULL){
+        pneumatics = new Pneumatics(sp,deviceAddr);
+        if(pneumatics == NULL){
+            std::cout << "Error!\n";
+            return;
+        }
+        std::cout << "Init pneumatics\n";
+    }
+
 	
 	/*----- PROTECTED REGION END -----*/	//	Pneumo::init_device
 }
@@ -287,11 +305,8 @@ void Pneumo::write_valve(Tango::WAttribute &attr)
 	attr.get_write_value(w_val);
 	/*----- PROTECTED REGION ID(Pneumo::write_valve) ENABLED START -----*/
 
-    if(sp==NULL){
-        sp = new SP::SerialPort(serialPort.c_str());
-        std::cout << "Init serial Port\n";
-    }
-	
+	pneumatics->setValve(numOfValve,w_val);
+
 	/*----- PROTECTED REGION END -----*/	//	Pneumo::write_valve
 }
 //--------------------------------------------------------
@@ -309,7 +324,7 @@ void Pneumo::read_sensor(Tango::Attribute &attr)
 	/*----- PROTECTED REGION ID(Pneumo::read_sensor) ENABLED START -----*/
 	//	Set the attribute value
 
-	*attr_sensor_read = 0xffff;
+	*attr_sensor_read = pneumatics->getRegister();
 	attr.set_value(attr_sensor_read);
 	
 	/*----- PROTECTED REGION END -----*/	//	Pneumo::read_sensor

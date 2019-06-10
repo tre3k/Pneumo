@@ -15,7 +15,8 @@
 
 class Pneumatics : private CTRL_RA_153_16::ControllerRA153_16 {
 private:
-    bool states[VALVE_COUNT];
+    //bool states[VALVE_COUNT];
+
 public:
     explicit  Pneumatics(SP::SerialPort *sp, std::string addr);
     ~Pneumatics();
@@ -31,7 +32,9 @@ public:
     /* read data from registers */
     uint16_t getRegister(void);
 
-private:
+
+public:
+    static uint16_t regState;
 
 };
 

@@ -6,6 +6,8 @@
 
 using namespace SP;
 
+bool SerialPort::busy = false;
+
 SerialPort::SerialPort(const char *path) {
     sp = new boost::asio::serial_port(ios,path);
     sp->set_option(boost::asio::serial_port::baud_rate(baud_rate));
@@ -22,6 +24,9 @@ void SerialPort::readwrite(char *req, char *res, size_t *size_req, size_t *size_
     ts.tv_sec = 0;
     ts.tv_nsec = 200000000;  //200 ms delay
     nanosleep(&ts,NULL);
+
+    while(busy);
+    busy = true;
     // request, return the number of write bytes
     if(*size_req!=0) *size_req = sp->write_some(boost::asio::buffer(req, *size_req));
     // responsabal, return the number of read bytes
@@ -30,6 +35,7 @@ void SerialPort::readwrite(char *req, char *res, size_t *size_req, size_t *size_
         if(sp->read_some(boost::asio::buffer(&tmp, 1))<=0) break;
         res[i] = tmp;
     }
+    busy = false;
 }
 
 /* methods for set and get private baud_rate */
